@@ -57,6 +57,12 @@ class HTTPRequestHandler:
     Ghauri requests handler
     """
 
+    def chunkedSafe(self, response):
+        if response.headers.get("Transfer-Encoding") == "chunked":
+            for chunk in response.iter_content(chunk_size=1024):
+                if chunk:
+                    pass
+
     def perform(
         self,
         url,
@@ -133,6 +139,7 @@ class HTTPRequestHandler:
                     opener = build_opener(*handlers)
                     request = Request(url=url, headers=custom_headers)
                     response = opener.open(request, timeout=timeout)
+                    self.chunkedSafe(response)
                 else:
                     response = requests.get(
                         url,
@@ -195,6 +202,7 @@ class HTTPRequestHandler:
                     opener = build_opener(*handlers)
                     request = Request(url=url, data=post_data, headers=custom_headers)
                     response = opener.open(request, timeout=timeout)
+                    self.chunkedSafe(response)
                 else:
                     response = requests.post(
                         url,
@@ -204,7 +212,12 @@ class HTTPRequestHandler:
                         timeout=timeout,
                         allow_redirects=follow_redirects,
                         verify=verify,
+                        stream=True,
                     )
+                    if (response.headers.get("Transfer-Encoding") == "chunked"):
+                        for chunk in response.iter_content(chunk_size=1024):
+                            if chunk:
+                                pass
                     response.raise_for_status()
                 end_time = time.time()
                 response_time = end_time - start_time
