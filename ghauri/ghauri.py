@@ -418,7 +418,9 @@ def perform_injection(
                             choice_priority = logger.read_input(
                                 f"it is suggested to set '--technique=E{techniques.upper()}'. Do you want Ghauri set it for you ? [Y/n] ",
                                 batch=batch,
-                                user_input="Y",
+                                # disable it for now
+                                # user_input="Y",
+                                user_input="n",
                             )
                             if choice_priority == "y":
                                 techniques = f"E{techniques.upper()}"
@@ -427,7 +429,9 @@ def perform_injection(
                             choice = logger.read_input(
                                 f"for the remaining tests, do you want to include all tests for '{possible_dbms}'? [Y/n] ",
                                 batch=batch,
-                                user_input="Y",
+                                # disable it for now
+                                # user_input="Y",
+                                user_input="n",
                             )
                             is_remaining_tests_asked = True
                             if choice == "n":
