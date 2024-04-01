@@ -1884,7 +1884,7 @@ def get_random_user_agent():
     return ua
 
 
-def prepare_request(url, data, custom_headers, use_requests=False):
+def prepare_request(url, data, custom_headers = "", use_requests=False):
     Response = collections.namedtuple(
         "Response", ["raw", "path", "headers", "request", "endpoint"]
     )
@@ -1896,21 +1896,20 @@ def prepare_request(url, data, custom_headers, use_requests=False):
     path = parsed.path if not parsed.query else f"{parsed.path}?{parsed.query}"
     if not path:
         path = "/"
-    if not custom_headers:
-        ua = get_random_user_agent()
-        custom_headers = f"User-agent: {ua}"
-        if custom_headers and "user-agent" not in custom_headers.lower():
-            custom_headers += f"\nUser-agent: {ua}"
-        if custom_headers and "host" not in custom_headers.lower():
-            custom_headers += f"\nHost: {parsed.netloc}"
-        if custom_headers and "cache-control" not in custom_headers.lower():
-            custom_headers += "\nCache-Control: no-cache"
-        if custom_headers and "accept" not in custom_headers.lower():
-            custom_headers += "\nAccept: */*"
-        if custom_headers and "accept-encoding" not in custom_headers.lower():
-            custom_headers += "\nAccept-Encoding: none"
-        if custom_headers and "connection" not in custom_headers.lower():
-            custom_headers += "\nConnection: close"
+        
+    ua = get_random_user_agent()
+    if custom_headers and "user-agent" not in custom_headers.lower():
+        custom_headers += f"\nUser-agent: {ua}"
+    if custom_headers and "host" not in custom_headers.lower():
+        custom_headers += f"\nHost: {parsed.netloc}"
+    if custom_headers and "cache-control" not in custom_headers.lower():
+        custom_headers += "\nCache-Control: no-cache"
+    if custom_headers and "accept" not in custom_headers.lower():
+        custom_headers += "\nAccept: */*"
+    if custom_headers and "accept-encoding" not in custom_headers.lower():
+        custom_headers += "\nAccept-Encoding: none"
+    if custom_headers and "connection" not in custom_headers.lower():
+        custom_headers += "\nConnection: close"
     custom_headers = "\n".join([i.strip() for i in custom_headers.split("\n") if i])
     raw = f"{request_type} {path} HTTP/1.1\n"
     raw += f"{custom_headers if custom_headers else ''}\n"

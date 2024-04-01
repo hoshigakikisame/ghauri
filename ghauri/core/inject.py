@@ -161,7 +161,7 @@ def inject_expression(
             logger.critical(
                 "target URL is not responding, Please check the target menually.."
             )
-            logger.debug(f"Reason: URLError: {e.reason}")
+            logger.debug(f"Reason: URLError: {e}")
             logger.end("ending")
             exit(0)
         if conf.retry_counter <= conf.retry:
